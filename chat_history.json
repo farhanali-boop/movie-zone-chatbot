@@ -1,0 +1,37 @@
+[
+  {
+    "message": "the witcher",
+    "reply": "Sorry, I don't have info about that movie/series.",
+    "timestamp": "2025-12-16T21:44:28.833Z"
+  },
+  {
+    "message": "end game",
+    "reply": "Sorry, I don't have info about that movie/series.",
+    "timestamp": "2025-12-16T21:44:21.305Z"
+  },
+  {
+    "message": "hello",
+    "reply": "Hello! Movie Zone is at your service. Which movie do you want info about?",
+    "timestamp": "2025-12-16T21:44:14.727Z"
+  },
+  {
+    "message": "hi",
+    "reply": "Hey! Type the name of a movie or series and I’ll fetch its info.",
+    "timestamp": "2025-12-16T21:44:09.329Z"
+  },
+  {
+    "message": "",
+    "reply": "Hi there! Looking for movie or series details? I’m here to help!",
+    "timestamp": "2025-12-16T21:44:00.734Z"
+  },
+  {
+    "message": "",
+    "reply": "Hi! I’m Movie Zone Bot. Need info on any movie or series?",
+    "timestamp": "2025-12-16T21:43:53.741Z"
+  },
+  {
+    "message": "",
+    "reply": "Hi! Ready to explore movies and series? Ask me anything.",
+    "timestamp": "2025-12-16T21:43:53.453Z"
+  }
+]

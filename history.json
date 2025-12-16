@@ -1,0 +1,26 @@
+[
+  {
+    "text": "inception",
+    "type": "user"
+  },
+  {
+    "text": "<b>Inception</b>\n            <table class=\"movie-table\">\n            <tr><th>Attribute</th><th>Details</th></tr>\n            <tr><td>Release Date</td><td>16 Jul 2010</td></tr>\n            <tr><td>Genre</td><td>Sci-Fi/Thriller</td></tr>\n            <tr><td>Length</td><td>148 min</td></tr>\n            <tr><td>Episodes</td><td>1</td></tr>\n            <tr><td>OTT Platform</td><td>Netflix</td></tr>\n            </table>",
+    "type": "bot"
+  },
+  {
+    "text": "movie",
+    "type": "user"
+  },
+  {
+    "text": "Sorry, I don't have that movie info.",
+    "type": "bot"
+  },
+  {
+    "text": "inception",
+    "type": "user"
+  },
+  {
+    "text": "<b>Inception</b>\n            <table class=\"movie-table\">\n            <tr><th>Attribute</th><th>Details</th></tr>\n            <tr><td>Release Date</td><td>16 Jul 2010</td></tr>\n            <tr><td>Genre</td><td>Sci-Fi/Thriller</td></tr>\n            <tr><td>Length</td><td>148 min</td></tr>\n            <tr><td>Episodes</td><td>1</td></tr>\n            <tr><td>OTT Platform</td><td>Netflix</td></tr>\n            </table>",
+    "type": "bot"
+  }
+]

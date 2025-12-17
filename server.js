@@ -5,11 +5,11 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
+// --- Middleware ---
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // --- Path for history file ---
 const historyFilePath = path.join(__dirname, 'history.json');
@@ -26,25 +26,12 @@ if (fs.existsSync(historyFilePath)) {
     }
 }
 
-// --- Movie dataset (sample 100+ movies) ---
+// --- Movie dataset (sample) ---
 const movies = {
     "avengers endgame": {title:"Avengers: Endgame", release:"26 April 2019", genre:"Action, Adventure, Sci-Fi", length:"181 min", episodes:"1", platform:"Disney+"},
     "inception": {title:"Inception", release:"16 Jul 2010", genre:"Sci-Fi/Thriller", length:"148 min", episodes:"1", platform:"Netflix"},
     "interstellar": {title:"Interstellar", release:"7 Nov 2014", genre:"Adventure, Drama, Sci-Fi", length:"169 min", episodes:"1", platform:"Amazon Prime"},
-    "the dark knight": {title:"The Dark Knight", release:"18 Jul 2008", genre:"Action, Crime, Drama", length:"152 min", episodes:"1", platform:"Netflix"},
-    "joker": {title:"Joker", release:"4 Oct 2019", genre:"Crime, Drama, Thriller", length:"122 min", episodes:"1", platform:"HBO Max"},
-    "parasite": {title:"Parasite", release:"30 May 2019", genre:"Comedy, Drama, Thriller", length:"132 min", episodes:"1", platform:"Hulu"},
-    "tenet": {title:"Tenet", release:"3 Sep 2020", genre:"Action, Sci-Fi, Thriller", length:"150 min", episodes:"1", platform:"HBO Max"},
-    "dune": {title:"Dune", release:"22 Oct 2021", genre:"Adventure, Sci-Fi", length:"155 min", episodes:"1", platform:"HBO Max"},
-    "avatar": {title:"Avatar", release:"18 Dec 2009", genre:"Action, Adventure, Sci-Fi", length:"162 min", episodes:"1", platform:"Disney+"},
-    "titanic": {title:"Titanic", release:"19 Dec 1997", genre:"Drama, Romance", length:"195 min", episodes:"1", platform:"Disney+"},
-    "matrix": {title:"The Matrix", release:"31 Mar 1999", genre:"Action, Sci-Fi", length:"136 min", episodes:"1", platform:"HBO Max"},
-    "matrix revolutions": {title:"The Matrix Revolutions", release:"5 Nov 2003", genre:"Action, Sci-Fi", length:"129 min", episodes:"1", platform:"HBO Max"},
-    "the godfather": {title:"The Godfather", release:"24 Mar 1972", genre:"Crime, Drama", length:"175 min", episodes:"1", platform:"Amazon Prime"},
-    "the godfather part ii": {title:"The Godfather Part II", release:"20 Dec 1974", genre:"Crime, Drama", length:"202 min", episodes:"1", platform:"Amazon Prime"},
-    "fight club": {title:"Fight Club", release:"15 Oct 1999", genre:"Drama", length:"139 min", episodes:"1", platform:"Netflix"},
-    "pulp fiction": {title:"Pulp Fiction", release:"14 Oct 1994", genre:"Crime, Drama", length:"154 min", episodes:"1", platform:"Netflix"},
-    // --- add more movies here up to 100+ ---
+    // add more movies here...
 };
 
 // --- Greeting dataset ---
@@ -117,5 +104,10 @@ app.get('/api/suggestions', (req, res) => {
     res.json({ suggestions });
 });
 
-// --- Start server ---
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// --- Serve index.html at root ---
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// --- Export app for Vercel ---
+module.exports = app;

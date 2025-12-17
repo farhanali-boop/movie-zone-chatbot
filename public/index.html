@@ -298,7 +298,7 @@ async function sendMessage(messageText) {
     chatDiv.scrollTop = chatDiv.scrollHeight;
 
     try {
-        const res = await fetch('http://localhost:5000/api/chat', {
+        const res = await fetch('/api/chat', {  // <-- Updated relative path
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({ message })
@@ -344,7 +344,7 @@ function renderHistory(filter='') {
 // ---------- Load History ----------
 async function loadHistory() {
     try {
-        const res = await fetch('http://localhost:5000/api/history');
+        const res = await fetch('/api/history'); // <-- Updated relative path
         const data = await res.json();
         historyData = data.history;
         renderHistory();
@@ -361,7 +361,7 @@ userInput.addEventListener('input', async () => {
         return;
     }
     try {
-        const res = await fetch(`http://localhost:5000/api/suggestions?q=${query}`);
+        const res = await fetch(`/api/suggestions?q=${query}`); // <-- Updated relative path
         const data = await res.json();
         suggestionsDiv.innerHTML = '';
         data.suggestions.forEach(title => {

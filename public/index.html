@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Movie Zone 🎬</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -298,7 +299,7 @@ async function sendMessage(messageText) {
     chatDiv.scrollTop = chatDiv.scrollHeight;
 
     try {
-        const res = await fetch('/api/chat', {  // <-- Updated relative path
+        const res = await fetch('/api/chat', {  // relative path
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({ message })
@@ -344,7 +345,7 @@ function renderHistory(filter='') {
 // ---------- Load History ----------
 async function loadHistory() {
     try {
-        const res = await fetch('/api/history'); // <-- Updated relative path
+        const res = await fetch('/api/history'); // relative path
         const data = await res.json();
         historyData = data.history;
         renderHistory();
@@ -361,7 +362,7 @@ userInput.addEventListener('input', async () => {
         return;
     }
     try {
-        const res = await fetch(`/api/suggestions?q=${query}`); // <-- Updated relative path
+        const res = await fetch(`/api/suggestions?q=${query}`); // relative path
         const data = await res.json();
         suggestionsDiv.innerHTML = '';
         data.suggestions.forEach(title => {

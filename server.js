@@ -1,70 +1,57 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// ---------- Middleware ----------
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static('public'));  // Serve static files (index.html)
 
-// --- Path for history file ---
+// ---------- History File ----------
 const historyFilePath = path.join(__dirname, 'history.json');
-
-// --- Load history from file on startup ---
 let history = [];
+
 if (fs.existsSync(historyFilePath)) {
     const data = fs.readFileSync(historyFilePath, 'utf8');
-    try {
-        history = JSON.parse(data);
-    } catch (err) {
-        console.log('Error parsing history.json, starting fresh.');
-        history = [];
-    }
+    try { history = JSON.parse(data); } 
+    catch { history = []; }
 }
 
-// --- Movie dataset (sample 10 movies, aap 100+ add kar sakte ho) ---
+// ---------- Movie Dataset ----------
 const movies = {
     "avengers endgame": {title:"Avengers: Endgame", release:"26 April 2019", genre:"Action, Adventure, Sci-Fi", length:"181 min", episodes:"1", platform:"Disney+"},
     "inception": {title:"Inception", release:"16 Jul 2010", genre:"Sci-Fi/Thriller", length:"148 min", episodes:"1", platform:"Netflix"},
     "interstellar": {title:"Interstellar", release:"7 Nov 2014", genre:"Adventure, Drama, Sci-Fi", length:"169 min", episodes:"1", platform:"Amazon Prime"},
     "the dark knight": {title:"The Dark Knight", release:"18 Jul 2008", genre:"Action, Crime, Drama", length:"152 min", episodes:"1", platform:"Netflix"},
     "joker": {title:"Joker", release:"4 Oct 2019", genre:"Crime, Drama, Thriller", length:"122 min", episodes:"1", platform:"HBO Max"},
-    "tenet": {title:"Tenet", release:"3 Sep 2020", genre:"Action, Sci-Fi, Thriller", length:"150 min", episodes:"1", platform:"HBO Max"},
-    "dune": {title:"Dune", release:"22 Oct 2021", genre:"Adventure, Sci-Fi", length:"155 min", episodes:"1", platform:"HBO Max"},
-    "avatar": {title:"Avatar", release:"18 Dec 2009", genre:"Action, Adventure, Sci-Fi", length:"162 min", episodes:"1", platform:"Disney+"},
-    "titanic": {title:"Titanic", release:"19 Dec 1997", genre:"Drama, Romance", length:"195 min", episodes:"1", platform:"Disney+"},
-    "matrix": {title:"The Matrix", release:"31 Mar 1999", genre:"Action, Sci-Fi", length:"136 min", episodes:"1", platform:"HBO Max"}
+    // Add more movies as needed
 };
 
-// --- Greeting dataset ---
+// ---------- Greetings ----------
 const greetings = [
     "Hi there! Welcome to Movie Zone 🎬. Ask me about any movie or series!",
     "Hello! I'm your Movie Zone Bot. I can give you details about movies and series.",
     "Hey! Type the name of a movie or series and I’ll fetch its info.",
-    "Hi! Ready to explore movies and series? Ask me anything.",
-    "Greetings! Ask me about any movie or series and I'll tell you the details."
 ];
 
-// --- Save history to file ---
+// ---------- Helper Functions ----------
 function saveHistoryFile() {
     fs.writeFileSync(historyFilePath, JSON.stringify(history, null, 2));
 }
 
-// --- Get bot reply ---
 function getBotReply(message) {
     const msgLower = message.toLowerCase().trim();
-
-    // Greetings handling
     const greetingKeywords = ['hi','hello','hey','how are you','greetings'];
+
     if (greetingKeywords.some(g => msgLower.includes(g))) {
         return greetings[Math.floor(Math.random() * greetings.length)];
     }
 
-    // Movie info
     if (movies[msgLower]) {
         const m = movies[msgLower];
         return `<b>${m.title}</b>
@@ -78,37 +65,29 @@ function getBotReply(message) {
             </table>`;
     }
 
-    // Default fallback
     return "Sorry, I don't have that movie info.";
 }
 
-// --- Chat API ---
-app.post('/api/chat', (req, res) => {
+// ---------- API Routes ----------
+app.post('/api/chat', (req,res) => {
     const { message } = req.body;
     const reply = getBotReply(message);
-
-    // Add to history
-    history.push({ text: message, type: 'user' });
-    history.push({ text: reply, type: 'bot' });
+    history.push({text: message, type:'user'});
+    history.push({text: reply, type:'bot'});
     saveHistoryFile();
-
-    res.json({ reply });
+    res.json({reply});
 });
 
-// --- Fetch history API ---
-app.get('/api/history', (req, res) => {
-    res.json({ history });
-});
+app.get('/api/history', (req,res) => res.json({history}));
 
-// --- Suggestions API ---
-app.get('/api/suggestions', (req, res) => {
+app.get('/api/suggestions', (req,res) => {
     const query = req.query.q ? req.query.q.toLowerCase() : '';
     const suggestions = Object.keys(movies)
         .filter(key => key.includes(query))
         .map(key => movies[key].title)
-        .slice(0, 10); // max 10 suggestions
-    res.json({ suggestions });
+        .slice(0,10);
+    res.json({suggestions});
 });
 
-// --- Start server ---
+// ---------- Start Server ----------
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

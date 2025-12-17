@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Movie Zone 🎬</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* ----- Body & Reset ----- */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; background: #141e30; color: #fff; }
+/* ---------- Reset & Body ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+body, html { width: 100%; height: 100%; background: #141e30; color: #fff; overflow: hidden; }
 
-/* ----- Startup Screen ----- */
+/* ---------- Startup Screen ---------- */
 #startupScreen {
     width: 100%;
     height: 100%;
@@ -17,23 +18,20 @@ body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; backgr
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    animation: startupBG 10s ease infinite;
-}
-@keyframes startupBG {
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
+    cursor: pointer;
+    perspective: 1000px;
 }
 #startupScreen h1 {
-    font-size: 3rem;
+    font-size: 4rem;
+    font-weight: 700;
     color: #ffd700;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
-    cursor: pointer;
-    transition: transform 0.3s;
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.7);
+    transition: transform 0.5s, color 0.3s;
 }
-#startupScreen h1:hover { transform: scale(1.1); }
+#startupScreen h1:hover { transform: rotateY(15deg) scale(1.1); color: #ffea00; }
+#startupScreen p { margin-top: 15px; font-weight: 500; color: #fff4; }
 
-/* ----- Container ----- */
+/* ---------- Container ---------- */
 #chatContainer {
     display: none;
     width: 90%;
@@ -43,11 +41,11 @@ body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; backgr
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     border-radius: 20px;
     overflow: hidden;
-    background: #1c1c1ccc;
     display: flex;
+    background: #1c1c1ccc;
 }
 
-/* ----- History Panel ----- */
+/* ---------- History Panel ---------- */
 .history-panel {
     width: 30%;
     background: linear-gradient(180deg, #2c5364, #203a43, #0f2027);
@@ -59,26 +57,25 @@ body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; backgr
 .history-panel h3 {
     margin-bottom: 15px;
     color: #ffd700;
-    text-align: center;
     font-size: 1.8rem;
-    font-weight: bold;
+    text-align: center;
+    font-weight: 700;
     text-shadow: 1px 1px 6px rgba(0,0,0,0.7);
 }
 .search-bar {
-    padding: 10px;
+    padding: 12px 15px;
     border-radius: 25px;
     border: none;
-    margin-bottom: 20px;
     outline: none;
     background: #ffffff22;
     transition: all 0.3s ease;
     color: #fff;
-    font-weight: bold;
+    font-weight: 500;
 }
 .search-bar:hover { background: #ffd70033; box-shadow: 0 0 10px #ffd700aa; }
 .search-bar:focus { background: #ffd70044; box-shadow: 0 0 12px #ffd700ff; }
 
-#history { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+#history { flex: 1; overflow-y: auto; display: flex; flex-direction: column; margin-top: 10px; }
 .history-item {
     background: rgba(255, 255, 255, 0.1);
     padding: 8px 12px;
@@ -86,8 +83,8 @@ body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; backgr
     margin: 5px 0;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+    font-weight: 500;
     color: #fff;
-    font-weight: bold;
 }
 .history-item:hover {
     transform: scale(1.05);
@@ -95,7 +92,7 @@ body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; backgr
     background: rgba(255, 215, 0, 0.2);
 }
 
-/* ----- Chat Panel ----- */
+/* ---------- Chat Panel ---------- */
 .chat-panel {
     width: 70%;
     display: flex;
@@ -109,13 +106,13 @@ body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; backgr
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    font-weight: bold;
+    font-weight: 700;
     margin-bottom: 15px;
     color: #ffd700;
     text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
 }
 .chat-icon { font-size: 2.5rem; margin-right: 10px; }
-.chat-name { font-size: 2rem; font-weight: bold; }
+.chat-name { font-size: 2rem; font-weight: 700; }
 
 #chat {
     flex: 1;
@@ -134,14 +131,14 @@ body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; backgr
     max-width: 70%;
     transition: transform 0.2s, box-shadow 0.2s;
     word-wrap: break-word;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 1rem;
 }
 .message.user { align-self: flex-end; background: #ff6f91; color: #fff; }
 .message.bot { align-self: flex-start; background: #1e90ff; color: #fff; }
 .message:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,255,255,0.3); }
 
-/* ----- Movie Info Table ----- */
+/* ---------- Movie Info Table ---------- */
 .movie-table {
     width: 100%;
     margin-top: 10px;
@@ -154,8 +151,8 @@ body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; backgr
 }
 .movie-table th { background: #ffd70044; color: #000; }
 
-/* ----- Input ----- */
-.input-container { display: flex; margin-top: 15px; }
+/* ---------- Input & Suggestions ---------- */
+.input-container { display: flex; margin-top: 15px; position: relative; }
 #userInput {
     flex: 1;
     padding: 14px 22px;
@@ -166,7 +163,7 @@ body, html { width: 100%; height: 100%; font-family: 'Arial', sans-serif; backgr
     transition: all 0.3s ease;
     background: #ffffff22;
     color: #fff;
-    font-weight: bold;
+    font-weight: 500;
 }
 #userInput:focus { background: #ffd70033; box-shadow: 0 0 15px #ffd700aa; }
 button {
@@ -176,16 +173,36 @@ button {
     border-radius: 25px;
     background: #ffd700;
     color: #000;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 button:hover { background: #ffda55; transform: scale(1.05); }
 
-/* ----- Typing Animation ----- */
+.suggestions {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background: #203a43cc;
+    border-radius: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+}
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.suggestion-item:hover { background: #ffd70033; }
+
+/* ---------- Typing Animation ---------- */
 .typing {
     display: inline-block;
     width: 70px;
+    margin-top: 5px;
 }
 .typing span {
     display: inline-block;
@@ -201,9 +218,9 @@ button:hover { background: #ffda55; transform: scale(1.05); }
 @keyframes bounce { 0%{transform: translateY(0);} 100%{transform: translateY(-10px);} }
 
 /* Scrollbar */
-#chat::-webkit-scrollbar, #history::-webkit-scrollbar { width: 8px; }
-#chat::-webkit-scrollbar-thumb, #history::-webkit-scrollbar-thumb { background-color: #ffd700; border-radius: 4px; }
-#chat::-webkit-scrollbar-track, #history::-webkit-scrollbar-track { background: #00000022; }
+#chat::-webkit-scrollbar, #history::-webkit-scrollbar, .suggestions::-webkit-scrollbar { width: 8px; }
+#chat::-webkit-scrollbar-thumb, #history::-webkit-scrollbar-thumb, .suggestions::-webkit-scrollbar-thumb { background-color: #ffd700; border-radius: 4px; }
+#chat::-webkit-scrollbar-track, #history::-webkit-scrollbar-track, .suggestions::-webkit-scrollbar-track { background: #00000022; }
 </style>
 </head>
 <body>
@@ -211,7 +228,7 @@ button:hover { background: #ffda55; transform: scale(1.05); }
 <!-- Startup Screen -->
 <div id="startupScreen">
     <h1>🎬 Movie Zone</h1>
-    <p style="color:#fff4; margin-top:10px;">Tap to start</p>
+    <p>Tap to start</p>
 </div>
 
 <!-- Chat Container -->
@@ -229,8 +246,9 @@ button:hover { background: #ffda55; transform: scale(1.05); }
         </div>
         <div id="chat"></div>
         <div class="input-container">
-            <input type="text" id="userInput" placeholder="Ask about a movie or series..." onkeypress="if(event.key==='Enter'){sendMessage();}">
+            <input type="text" id="userInput" placeholder="Ask about a movie or series...">
             <button onclick="sendMessage()">Send</button>
+            <div class="suggestions" id="suggestions"></div>
         </div>
     </div>
 </div>
@@ -241,9 +259,12 @@ const chatContainer = document.getElementById('chatContainer');
 const chatDiv = document.getElementById('chat');
 const historyDiv = document.getElementById('history');
 const searchInput = document.getElementById('search');
+const suggestionsDiv = document.getElementById('suggestions');
+const userInput = document.getElementById('userInput');
+
 let historyData = [];
 
-// Startup transition
+// ---------- Startup ----------
 startupScreen.addEventListener('click', () => {
     startupScreen.style.transition = 'opacity 0.5s';
     startupScreen.style.opacity = 0;
@@ -255,20 +276,21 @@ startupScreen.addEventListener('click', () => {
     }, 500);
 });
 
-// Auto greeting
+// ---------- Greeting ----------
 function startupGreeting() {
     appendMessage("Hi! Welcome to Movie Zone 🎬. Ask me about any movie or series!", 'bot');
 }
 
-// Send message
-async function sendMessage() {
-    const input = document.getElementById("userInput");
-    const message = input.value.trim();
+// ---------- Send Message ----------
+async function sendMessage(messageText) {
+    const message = messageText || userInput.value.trim();
     if (!message) return;
 
     appendMessage(message, 'user');
-    input.value = '';
+    userInput.value = '';
+    suggestionsDiv.innerHTML = '';
 
+    // Typing animation
     const typingDiv = document.createElement('div');
     typingDiv.classList.add('message', 'bot');
     typingDiv.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
@@ -292,7 +314,7 @@ async function sendMessage() {
     }
 }
 
-// Append message
+// ---------- Append Message ----------
 function appendMessage(text, type) {
     const msgDiv = document.createElement('div');
     msgDiv.classList.add('message', type);
@@ -301,13 +323,11 @@ function appendMessage(text, type) {
     chatDiv.scrollTop = chatDiv.scrollHeight;
 }
 
-// Save history locally
+// ---------- Save & Render History ----------
 function saveHistory(text, type) {
     historyData.push({text,type});
     renderHistory();
 }
-
-// Render history panel
 function renderHistory(filter='') {
     historyDiv.innerHTML = '';
     historyData
@@ -321,9 +341,7 @@ function renderHistory(filter='') {
         });
 }
 
-searchInput.addEventListener('input', () => renderHistory(searchInput.value));
-
-// Load history from backend
+// ---------- Load History ----------
 async function loadHistory() {
     try {
         const res = await fetch('http://localhost:5000/api/history');
@@ -334,7 +352,38 @@ async function loadHistory() {
         console.log('Error loading history:', err);
     }
 }
-</script>
 
+// ---------- Suggestions ----------
+userInput.addEventListener('input', async () => {
+    const query = userInput.value.trim();
+    if (!query) {
+        suggestionsDiv.innerHTML = '';
+        return;
+    }
+    try {
+        const res = await fetch(`http://localhost:5000/api/suggestions?q=${query}`);
+        const data = await res.json();
+        suggestionsDiv.innerHTML = '';
+        data.suggestions.forEach(title => {
+            const div = document.createElement('div');
+            div.classList.add('suggestion-item');
+            div.textContent = title;
+            div.onclick = () => sendMessage(title);
+            suggestionsDiv.appendChild(div);
+        });
+    } catch (err) {
+        console.log('Error fetching suggestions:', err);
+    }
+});
+
+// ---------- Enter key ----------
+userInput.addEventListener('keypress', e => {
+    if(e.key === 'Enter') sendMessage();
+});
+
+// ---------- Search History ----------
+searchInput.addEventListener('input', () => renderHistory(searchInput.value));
+
+</script>
 </body>
 </html>

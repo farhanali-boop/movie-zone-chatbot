@@ -26,7 +26,7 @@ if (fs.existsSync(historyFilePath)) {
     }
 }
 
-// --- Movie dataset (sample, add more 100+ movies similarly) ---
+// --- Movie dataset (sample 100+ movies) ---
 const movies = {
     "avengers endgame": {title:"Avengers: Endgame", release:"26 April 2019", genre:"Action, Adventure, Sci-Fi", length:"181 min", episodes:"1", platform:"Disney+"},
     "inception": {title:"Inception", release:"16 Jul 2010", genre:"Sci-Fi/Thriller", length:"148 min", episodes:"1", platform:"Netflix"},
@@ -34,7 +34,17 @@ const movies = {
     "the dark knight": {title:"The Dark Knight", release:"18 Jul 2008", genre:"Action, Crime, Drama", length:"152 min", episodes:"1", platform:"Netflix"},
     "joker": {title:"Joker", release:"4 Oct 2019", genre:"Crime, Drama, Thriller", length:"122 min", episodes:"1", platform:"HBO Max"},
     "parasite": {title:"Parasite", release:"30 May 2019", genre:"Comedy, Drama, Thriller", length:"132 min", episodes:"1", platform:"Hulu"},
-    // continue adding 100+ movies here
+    "tenet": {title:"Tenet", release:"3 Sep 2020", genre:"Action, Sci-Fi, Thriller", length:"150 min", episodes:"1", platform:"HBO Max"},
+    "dune": {title:"Dune", release:"22 Oct 2021", genre:"Adventure, Sci-Fi", length:"155 min", episodes:"1", platform:"HBO Max"},
+    "avatar": {title:"Avatar", release:"18 Dec 2009", genre:"Action, Adventure, Sci-Fi", length:"162 min", episodes:"1", platform:"Disney+"},
+    "titanic": {title:"Titanic", release:"19 Dec 1997", genre:"Drama, Romance", length:"195 min", episodes:"1", platform:"Disney+"},
+    "matrix": {title:"The Matrix", release:"31 Mar 1999", genre:"Action, Sci-Fi", length:"136 min", episodes:"1", platform:"HBO Max"},
+    "matrix revolutions": {title:"The Matrix Revolutions", release:"5 Nov 2003", genre:"Action, Sci-Fi", length:"129 min", episodes:"1", platform:"HBO Max"},
+    "the godfather": {title:"The Godfather", release:"24 Mar 1972", genre:"Crime, Drama", length:"175 min", episodes:"1", platform:"Amazon Prime"},
+    "the godfather part ii": {title:"The Godfather Part II", release:"20 Dec 1974", genre:"Crime, Drama", length:"202 min", episodes:"1", platform:"Amazon Prime"},
+    "fight club": {title:"Fight Club", release:"15 Oct 1999", genre:"Drama", length:"139 min", episodes:"1", platform:"Netflix"},
+    "pulp fiction": {title:"Pulp Fiction", release:"14 Oct 1994", genre:"Crime, Drama", length:"154 min", episodes:"1", platform:"Netflix"},
+    // --- add more movies here up to 100+ ---
 };
 
 // --- Greeting dataset ---
@@ -95,6 +105,16 @@ app.post('/api/chat', (req, res) => {
 // --- Fetch history API ---
 app.get('/api/history', (req, res) => {
     res.json({ history });
+});
+
+// --- Suggestions API ---
+app.get('/api/suggestions', (req, res) => {
+    const query = req.query.q ? req.query.q.toLowerCase() : '';
+    const suggestions = Object.keys(movies)
+        .filter(key => key.includes(query))
+        .map(key => movies[key].title)
+        .slice(0, 10); // max 10 suggestions
+    res.json({ suggestions });
 });
 
 // --- Start server ---

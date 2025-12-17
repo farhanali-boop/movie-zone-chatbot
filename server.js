@@ -5,15 +5,14 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files like index.html
+app.use(express.static('public'));
 
-// --- Path for history file ---
 const historyFilePath = path.join(__dirname, 'history.json');
 
-// --- Load history from file on startup ---
 let history = [];
 if (fs.existsSync(historyFilePath)) {
     const data = fs.readFileSync(historyFilePath, 'utf8');
@@ -25,7 +24,6 @@ if (fs.existsSync(historyFilePath)) {
     }
 }
 
-// --- Movie dataset ---
 const movies = {
     "avengers endgame": {title:"Avengers: Endgame", release:"26 April 2019", genre:"Action, Adventure, Sci-Fi", length:"181 min", episodes:"1", platform:"Disney+"},
     "inception": {title:"Inception", release:"16 Jul 2010", genre:"Sci-Fi/Thriller", length:"148 min", episodes:"1", platform:"Netflix"},
@@ -42,35 +40,29 @@ const movies = {
     "the godfather": {title:"The Godfather", release:"24 Mar 1972", genre:"Crime, Drama", length:"175 min", episodes:"1", platform:"Amazon Prime"},
     "the godfather part ii": {title:"The Godfather Part II", release:"20 Dec 1974", genre:"Crime, Drama", length:"202 min", episodes:"1", platform:"Amazon Prime"},
     "fight club": {title:"Fight Club", release:"15 Oct 1999", genre:"Drama", length:"139 min", episodes:"1", platform:"Netflix"},
-    "pulp fiction": {title:"Pulp Fiction", release:"14 Oct 1994", genre:"Crime, Drama", length:"154 min", episodes:"1", platform:"Netflix"},
-    // --- add more movies up to 100+ ---
+    "pulp fiction": {title:"Pulp Fiction", release:"14 Oct 1994", genre:"Crime, Drama", length:"154 min", episodes:"1", platform:"Netflix"}
 };
 
-// --- Greetings dataset ---
 const greetings = [
     "Hi there! Welcome to Movie Zone 🎬. Ask me about any movie or series!",
     "Hello! I'm your Movie Zone Bot. I can give you details about movies and series.",
     "Hey! Type the name of a movie or series and I’ll fetch its info.",
     "Hi! Ready to explore movies and series? Ask me anything.",
-    "Greetings! Ask me about any movie or series and I'll tell you the details.",
+    "Greetings! Ask me about any movie or series and I'll tell you the details."
 ];
 
-// --- Save history ---
 function saveHistoryFile() {
     fs.writeFileSync(historyFilePath, JSON.stringify(history, null, 2));
 }
 
-// --- Bot reply logic ---
 function getBotReply(message) {
     const msgLower = message.toLowerCase().trim();
 
-    // Greetings
     const greetingKeywords = ['hi','hello','hey','how are you','greetings'];
     if (greetingKeywords.some(g => msgLower.includes(g))) {
         return greetings[Math.floor(Math.random() * greetings.length)];
     }
 
-    // Movie info
     if (movies[msgLower]) {
         const m = movies[msgLower];
         return `<b>${m.title}</b>
@@ -84,11 +76,9 @@ function getBotReply(message) {
             </table>`;
     }
 
-    // Default fallback
     return "Sorry, I don't have that movie info.";
 }
 
-// --- Chat API ---
 app.post('/api/chat', (req, res) => {
     const { message } = req.body;
     const reply = getBotReply(message);
@@ -100,12 +90,10 @@ app.post('/api/chat', (req, res) => {
     res.json({ reply });
 });
 
-// --- History API ---
 app.get('/api/history', (req, res) => {
     res.json({ history });
 });
 
-// --- Suggestions API ---
 app.get('/api/suggestions', (req, res) => {
     const query = req.query.q ? req.query.q.toLowerCase() : '';
     const suggestions = Object.keys(movies)
@@ -115,5 +103,4 @@ app.get('/api/suggestions', (req, res) => {
     res.json({ suggestions });
 });
 
-// --- Export app for Vercel ---
-module.exports = app;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
